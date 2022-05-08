@@ -6,11 +6,16 @@ const app = express();
 const port = 3000;
 const cors = require("cors");
 const axios = require("axios").default;
+const bodyParser = require('body-parser');
 require("dotenv").config();
 app.use(cors());
 let apiKey = process.env.API_KEY;
-const movieData = require("./Movie Data/data.json");
-
+// const movieData = require("./Movie Data/data.json");
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+let urlDB = "postgres://mohlebzo:0000@localhost:5432/moviesdb";
+const { Client } = require('pg');
+const client = new Client(urlDB);
 //functions
 const favoriteHandler = (req, res) => {
     res.send("Welcome to Favorite Page");
@@ -27,9 +32,8 @@ const notFoundHandler = (req, res) => {
     res.send(tempError);
 }
 
-const serverIssueHandler = (req, res) => {
-    let tempError = new Error('500', 'Sorry, something went wrong');
-    res.send(tempError);
+const errorHandler = (error,req,res) =>{
+    res.status(500).send(error)
 }
 
 const trendingHandler = (req, res) => {
@@ -68,7 +72,7 @@ const discoverHandler = (req, res) => {
                         vote_average.asc, vote_average.desc, vote_count.asc, vote_count.desc
                     default: popularity.desc*/
     let url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=${sort_by}&include_adult=false&include_video=false&page=1`;
-    
+
     axios.get(url).then(result => {
         let tempMovie = result.data.results.map(item => {
             return new Movie(item.id, item.title, item.release_date, item.poster_path, item.overview);
@@ -93,6 +97,32 @@ const upcomingHandler = (req, res) => {
     });
 }
 
+const postDataHandler = (req, res) => {
+    console.log(req.body);
+    let { id, title, release_date, poster_path, overview } = req.body;
+
+    let sql = `INSERT INTO movies( id, title, release_date, poster_path, overview ) VALUES($1, $2, $3, $4, $5) RETURNING *;`;
+    let values = [id, title, release_date, poster_path, overview];
+
+    client.query(sql, values).then((result) => {
+        console.log(result);
+        return res.status(201).json(result.rows);
+
+    }).catch((err) => {
+        errorHandler(err, req, res);
+    })
+}
+
+const getDataHandler = (req, res) => {
+    let sql = `SELECT * FROM movies;`;
+    client.query(sql).then((result) => {
+        console.log(result);
+        res.json(result.rows);
+    }).catch((err) => {
+        handleError(err, req, res);
+    })
+}
+
 //  http://localhost:3000/
 app.get("/", homeHandler);
 //  http://localhost:3000/favorite
@@ -105,9 +135,13 @@ app.get("/search", searchHandler);
 app.get("/discover", discoverHandler);
 //  http://localhost:3000/upcoming
 app.get("/upcoming", upcomingHandler);
+//  http://localhost:3000/postMovieData
+app.post('/postMovieData', postDataHandler);
+//  http://localhost:3000/getMovieData
+app.get('/getMovieData', getDataHandler);
 //  http://localhost:3000/*
 app.get("*", notFoundHandler);
-
+app.use(errorHandler);
 
 //constructor
 function Movie(id, title, release_date, poster_path, overview) {
@@ -123,6 +157,9 @@ function Error(status, responseText) {
     this.responseText = responseText;
 }
 
-app.listen(port, () => {
-    console.log(`listening at port ${port}`);
-});
+client.connect().then(() => {
+
+    app.listen(port, () => {
+        console.log(`listening at port ${port}`);
+    })
+})
