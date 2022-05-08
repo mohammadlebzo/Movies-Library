@@ -8,7 +8,7 @@
 ## WRRC (task 12)
 ![WRRC2](./assets/wrrc2.PNG)
 
-## WRRC (task 12)
+## WRRC (task 13)
 ![WRRC2](./assets/wrrc3.PNG)
 
 ## Overview
