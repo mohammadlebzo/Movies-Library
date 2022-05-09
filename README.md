@@ -53,5 +53,19 @@
 - **Discover** path, which allows the users to discover movies by sorting them at they like by specifying the sorting keyword form an API called "*The Movie Database*". ( **Allowed Values**: , popularity.asc, popularity.desc, release_date.asc, release_date.desc, revenue.asc, revenue.desc, primary_release_date.asc, primary_release_date.desc, original_title.asc, original_title.desc, vote_average.asc, vote_average.desc, vote_count.asc, vote_count.desc, default: popularity.desc).
 - **Upcoming** path, which shows the user some of the upcoming movies provided by an API called "*The Movie Database*".
 - **PostMovieData** path, which is used to add data to the database.
+
+Sample data to feed for the **"post"** for testing:
+
+```
+    {
+        "id": "68567567",
+        "title": "the title",
+        "release_date": "10/02/2022",
+        "poster_path": "jijsiodfiodfohs",
+        "overview": "huhsughdiohrg",
+        "personal_comment": "my comment"
+    }
+```
+
 - **GetMovieData** path, which is used to get data from the database.
 - An **error handler** for when the server can't retrieve data from the database.
