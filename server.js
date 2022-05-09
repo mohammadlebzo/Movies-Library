@@ -99,10 +99,10 @@ const upcomingHandler = (req, res) => {
 
 const postDataHandler = (req, res) => {
     console.log(req.body);
-    let { id, title, release_date, poster_path, overview } = req.body;
+    let { id, title, release_date, poster_path, overview, personal_comment } = req.body;
 
-    let sql = `INSERT INTO movies( id, title, release_date, poster_path, overview ) VALUES($1, $2, $3, $4, $5) RETURNING *;`;
-    let values = [id, title, release_date, poster_path, overview];
+    let sql = `INSERT INTO movies( id, title, release_date, poster_path, overview, personal_comment ) VALUES($1, $2, $3, $4, $5, $6) RETURNING *;`;
+    let values = [id, title, release_date, poster_path, overview, personal_comment];
 
     client.query(sql, values).then((result) => {
         console.log(result);
