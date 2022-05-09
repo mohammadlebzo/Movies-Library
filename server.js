@@ -116,11 +116,45 @@ const postDataHandler = (req, res) => {
 const getDataHandler = (req, res) => {
     let sql = `SELECT * FROM movies;`;
     client.query(sql).then((result) => {
-        console.log(result);
+        // console.log(result);
         res.json(result.rows);
     }).catch((err) => {
         handleError(err, req, res);
     })
+}
+
+const updateDataByIDHandler = (req, res) => {
+    let {id} = req.params;
+    let {personal_comment} = req.body;
+    
+    let sql = `UPDATE movies SET personal_comment =$1 WHERE id = ${id} RETURNING *`;
+    let values = [personal_comment];
+
+    client.query(sql, values).then(result => {
+        // console.log(result.rows[0]);
+        res.json(result.rows)
+    }).catch()
+}
+
+const deleteDataByIDHandler = (req, res) => {
+    let {id} = req.params;
+
+    let sql = `DELETE FROM movies WHERE id =${id} RETURNING *`;
+
+    client.query(sql).then(result => {
+        // console.log(result.rows[0]);
+        res.json(result.rows)
+        res.status(204).json([]);
+    }).catch()
+}
+
+const getDataByIDHandler = (req, res) => {
+    let {id} = req.params;
+    let sql = `SELECT * FROM movies WHERE id = ${id};`;
+    client.query(sql).then(result => {
+        // console.log(result.rows[0]);
+        res.json(result.rows)
+    }).catch()
 }
 
 //  http://localhost:3000/
@@ -139,8 +173,15 @@ app.get("/upcoming", upcomingHandler);
 app.post('/postMovieData', postDataHandler);
 //  http://localhost:3000/getMovieData
 app.get('/getMovieData', getDataHandler);
+//  http://localhost:3000/updateMovieDataByID/{id}
+app.put('/updateMovieDataByID/:id', updateDataByIDHandler);
+//  http://localhost:3000/deleteMovieDataByID/{id}
+app.delete('/deleteMovieDataByID/:id', deleteDataByIDHandler);
+//  http://localhost:3000/getMovieDataByID/{id}
+app.get('/getMovieDataByID/:id', getDataByIDHandler);
 //  http://localhost:3000/*
 app.get("*", notFoundHandler);
+
 app.use(errorHandler);
 
 //constructor

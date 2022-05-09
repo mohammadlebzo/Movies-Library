@@ -1,4 +1,4 @@
-# Movies-Library - v1.1.1
+# Movies-Library - v1.1.5
 
 **Author Name**: Mohammad Lebzo
 
@@ -8,7 +8,7 @@
 ## WRRC (task 12)
 ![WRRC2](./assets/wrrc2.PNG)
 
-## WRRC (task 13)
+## WRRC (task 13 + task 14)
 ![WRRC2](./assets/wrrc3.PNG)
 
 ## Overview
@@ -39,6 +39,9 @@
     - "http://localhost:3000/upcoming"  ==> Upcoming Page with data retrieved from a 3rd party API.
     - "http://localhost:3000/postMovieData"  ==> Used to add data to the database.
     - "http://localhost:3000/getMovieData"  ==> Used to get data from the database.
+    - "http://localhost:3000/updateMovieDataByID/{id}" ==> Used to update data in the database that holdes a specific id number.
+    - "http://localhost:3000/deleteMovieDataByID/{id}" ==> Used to delete an item in the database that holdes a specific id number.
+    - "http://localhost:3000/getMovieDataByID/{id}" => Used to get an item in the database that holdes a specific id number.
 
     
 **Note: if you entered anything else you will be met with a status code "404", Page not found.**
@@ -69,3 +72,6 @@ Sample data to feed for the **"post"** for testing:
 
 - **GetMovieData** path, which is used to get data from the database.
 - An **error handler** for when the server can't retrieve data from the database.
+- **updateMovieDataByID** path, which is used to update the data of a specific item in the database.
+- **deleteMovieDataByID** path, which is used to delete a specific item in the database.
+- **getMovieDataByID** path, which is used to get a specific item in the database.
