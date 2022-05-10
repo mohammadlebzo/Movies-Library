@@ -3,13 +3,13 @@
 const express = require("express");
 
 const app = express();
-const PORT = process.env.PORT;
 const cors = require("cors");
 const axios = require("axios").default;
 const bodyParser = require('body-parser');
 require("dotenv").config();
 app.use(cors());
 let apiKey = process.env.API_KEY;
+const PORT = process.env.PORT;
 // const movieData = require("./Movie Data/data.json");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -201,6 +201,6 @@ function Error(status, responseText) {
 client.connect().then(() => {
 
     app.listen(PORT, () => {
-        console.log(`listening at port ${PORT}`);
+        console.log(`Listening on PORT ${PORT}`)
     })
 })
