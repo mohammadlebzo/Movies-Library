@@ -3,7 +3,7 @@
 const express = require("express");
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT;
 const cors = require("cors");
 const axios = require("axios").default;
 const bodyParser = require('body-parser');
@@ -200,7 +200,7 @@ function Error(status, responseText) {
 
 client.connect().then(() => {
 
-    app.listen(port, () => {
-        console.log(`listening at port ${port}`);
+    app.listen(PORT, () => {
+        console.log(`listening at port ${PORT}`);
     })
 })
