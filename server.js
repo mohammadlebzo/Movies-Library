@@ -13,7 +13,7 @@ let apiKey = process.env.API_KEY;
 // const movieData = require("./Movie Data/data.json");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-let urlDB = process.env.PGURL;
+let urlDB = process.env.DATABASE_URL;
 const { Client } = require('pg');
 const client = new Client(urlDB);
 //functions
