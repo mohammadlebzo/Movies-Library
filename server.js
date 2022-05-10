@@ -13,9 +13,15 @@ const PORT = process.env.PORT;
 // const movieData = require("./Movie Data/data.json");
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-let urlDB = process.env.DATABASE_URL;
+// let urlDB = process.env.DATABASE_URL;
 const { Client } = require('pg');
-const client = new Client(urlDB);
+// const client = new Client(urlDB);
+const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+})
 //functions
 const favoriteHandler = (req, res) => {
     res.send("Welcome to Favorite Page");
