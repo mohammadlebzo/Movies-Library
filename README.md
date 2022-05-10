@@ -61,7 +61,7 @@ Sample data to feed for the **"post"** for testing:
 
 ```
     {
-        "id": "68567567",
+        "id": 1,
         "title": "the title",
         "release_date": "10/02/2022",
         "poster_path": "jijsiodfiodfohs",
