@@ -1,6 +1,6 @@
+DROP TABLE IF EXISTS movies;
 
-
-CREATE TABLE movies (
+CREATE TABLE IF NOT EXISTS movies (
     id int,
     title varchar(255),
     release_date varchar(255),
